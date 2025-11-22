@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Nano</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-cash-register"></i></div>
+                <h1>POS Nano</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-page="cashier"><i class="fas fa-shopping-cart"></i> Cashier</a></li>
+                <li><a href="#" class="nav-link" data-page="products"><i class="fas fa-boxes"></i> Products</a></li>
+                <li><a href="#" class="nav-link" data-page="reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard -->
+            <div id="dashboard" class="page active">
+                <div class="page-header">
+                    <h2>Dashboard</h2>
+                    <div class="date-display" id="currentDate"></div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="stat-value" id="todaySales">R0.00</div>
+                        <div class="stat-label">Today's Sales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+                        <div class="stat-value" id="totalProducts">0</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="stat-value" id="weekSales">R0.00</div>
+                        <div class="stat-label">This Week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-value" id="totalTransactions">0</div>
+                        <div class="stat-label">Transactions</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Transactions</h3>
+                        <button class="btn btn-outline" onclick="navigateTo('reports')">View All</button>
+                    </div>
+                    <div id="recentTransactions">
+                        <p>No recent transactions</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="btn btn-primary" onclick="navigateTo('cashier')">New Sale</button>
+                        <button class="btn btn-success" onclick="navigateTo('products')">Add Product</button>
+                        <button class="btn btn-warning" onclick="navigateTo('reports')">View Reports</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cashier -->
+            <div id="cashier" class="page">
+                <div class="page-header">
+                    <h2>Cashier</h2>
+                    <div class="sale-info">
+                        <span>Sale #<span id="saleNumber">001</span></span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Search Products</h3>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="searchInput" placeholder="Search by SKU or name...">
+                    </div>
+                    <button class="btn btn-primary" onclick="searchProducts()">Search</button>
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Shopping Cart</h3>
+                        <button class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
+                    </div>
+                    <div id="cartItems"></div>
+                    <div id="cartTotals" class="totals"></div>
+                    <button class="btn btn-success checkout-btn" onclick="checkout()">Checkout</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Add Test Product</h3>
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="newName" placeholder="Name">
+                        <input type="number" id="newPrice" placeholder="Price" step="0.01">
+                        <button class="btn btn-outline" onclick="createTestProduct()">Add Product</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Database</h3>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-danger" onclick="resetAllData()">Reset All Data</button>
+                        <button class="btn btn-warning" onclick="getStats()">Show Stats</button>
+                    </div>
+                    <div id="statsResult" class="stats-result"></div>
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div id="products" class="page">
+                <div class="page-header">
+                    <h2>Products</h2>
+                    <button class="btn btn-primary" onclick="showAddProductForm()">Add Product</button>
+                </div>
+
+                <div class="card" id="addProductForm">
+                    <div class="card-header">
+                        <h3>Add New Product</h3>
+                        <button class="btn btn-outline" onclick="hideAddProductForm()">Cancel</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" id="productName" placeholder="Enter product name">
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price</label>
+                        <input type="number" id="productPrice" placeholder="0.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="productColour">Colour</label>
+                        <input type="text" id="productColour" placeholder="Enter colour">
+                    </div>
+                    <div class="form-group">
+                        <label for="productSize">Size</label>
+                        <input type="text" id="productSize" placeholder="Enter size">
+                    </div>
+                    <button class="btn btn-success" onclick="addProduct()">Save Product</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>All Products</h3>
+                        <button class="btn btn-outline" onclick="loadProducts()">Refresh</button>
+                    </div>
+                    <div id="productsList"></div>
+                </div>
+            </div>
+
+            <!-- Reports -->
+            <div id="reports" class="page">
+                <div class="page-header">
+                    <h2>Reports</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Ask POS</h3>
+                    </div>
+                    <div class="ai-query">
+                        <input type="text" id="aiQuery" placeholder="e.g., 'sales last 7 days'">
+                        <button class="btn btn-primary" onclick="askPOS()">Ask</button>
+                    </div>
+                    <div id="aiResponse" class="ai-response"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Sales Report</h3>
+                    </div>
+                    <div class="date-range">
+                        <div class="form-group">
+                            <label for="fromDate">From Date</label>
+                            <input type="date" id="fromDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="toDate">To Date</label>
+                            <input type="date" id="toDate">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" onclick="loadDailySales()">Load Report</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
