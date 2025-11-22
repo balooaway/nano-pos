@@ -2,21 +2,22 @@
 
 A lightweight Point-of-Sale (POS) application built with Python FastAPI and PostgreSQL.
 
-Quick Start
+## Quick Start
 1. Set up PostgreSQL with Docker        
-bash        
+bash    
+
 docker run --name posnano-db \
     -e POSTGRES_USER=postgres \
     -e POSTGRES_PASSWORD=postgres \
     -e POSTGRES_DB=posnano \
     -p 5432:5432 \
     -d postgres:16
-2. Clone and set up the project
-bash
-git clone https://github.com/balooaway/pos-nano.git
-cd pos-nano
-3. Set up Python environment
-bash
+
+2. Clone and set up the project     
+bash        
+git clone https://github.com/balooaway/pos-nano.git     
+cd pos-nano     
+
 ## Create virtual environment
 python -m venv venv
 
@@ -43,15 +44,16 @@ psycopg2-binary==2.9.9
 pydantic==2.5.0     
 python-dotenv==1.0.0        
 
-4. Database setup       
+## Database setup       
 bash
-## Run migrations
+### Run migrations
 alembic upgrade head
 
-5. Start the application            
-bash        
-uvicorn app.main:app --reload       
-The application will be available at http://localhost:8000
+## Start the application            
+bash     
+
+uvicorn app.main:app --reload   
+
 
 
 # Access the Application
