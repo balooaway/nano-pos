@@ -1,10 +1,10 @@
-POS Nano
+## POS Nano
 
 A lightweight Point-of-Sale (POS) application built with Python FastAPI and PostgreSQL.
 
 Quick Start
-1. Set up PostgreSQL with Docker
-bash
+1. Set up PostgreSQL with Docker        
+bash        
 docker run --name posnano-db \
     -e POSTGRES_USER=postgres \
     -e POSTGRES_PASSWORD=postgres \
@@ -31,14 +31,14 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-4. Database setup
+4. Database setup       
 bash
 # Run migrations
 alembic upgrade head
 
-5. Start the application
-bash
-uvicorn app.main:app --reload
+5. Start the application            
+bash        
+uvicorn app.main:app --reload       
 The application will be available at http://localhost:8000
 
 Requirements
