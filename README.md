@@ -45,13 +45,13 @@ Requirements
 The project uses the following Python packages (see requirements.txt):
 
 text
-fastapi==0.104.1
-uvicorn==0.24.0
-sqlalchemy==2.0.23
-alembic==1.12.1
-psycopg2-binary==2.9.9
-pydantic==2.5.0
-python-dotenv==1.0.0
+fastapi==0.104.1        
+uvicorn==0.24.0     
+sqlalchemy==2.0.23      
+alembic==1.12.1     
+psycopg2-binary==2.9.9      
+pydantic==2.5.0     
+python-dotenv==1.0.0        
 
 Access the Application
 
