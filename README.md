@@ -52,7 +52,7 @@ alembic upgrade head
 ## Start the application            
 bash     
 
-uvicorn app.main:app --reload   
+uvicorn backend.main:app --reload   
 
 
 
